@@ -26,7 +26,7 @@ def clean( df = pd.DataFrame) -> pd.DataFrame:
 
 @task()
 def write_local(df: pd.DataFrame, color:str, dataset_file:str) -> Path:
-    path = Path(f"{color}/{dataset_file}.parquet")
+    path = Path(f"data/{color}/{dataset_file}")
     df.to_parquet(path, compression="gzip")
 
     return path
@@ -35,13 +35,13 @@ def write_local(df: pd.DataFrame, color:str, dataset_file:str) -> Path:
 @task()
 def write_gcs(path: Path):
     gcp_cloud_storage_bucket_block = GcsBucket.load("gcs-zoom")
-    gcp_cloud_storage_bucket_block.upload_from_path(from_path=path, to_path=path)
+    gcp_cloud_storage_bucket_block.upload_from_path(from_path=path, to_path=str(path)[5:])
                                                     
     return 
 
 @flow()
 def etl_web_to_gcs() -> None:
-    color = 'yellow'
+    color = 'green'
     year =2021
     month =1 
     dataset_file = f"{color}_tripdata_{year}-{month:02d}.parquet"
