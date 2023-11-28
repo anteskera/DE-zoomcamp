@@ -6,3 +6,4 @@ week5/fhvhv/
 zones/
 taxi+_zone_lookup.csv
 fhv_tripdata_2021-01.parquet
+tmp/
